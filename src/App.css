@@ -13,3 +13,17 @@
   color: white;
 }
 
+.App button {
+  background-color: white;
+  margin-top: 5px;
+}
+
+.App h2 {
+  font-family: 'Orbitron';
+  color: white;
+}
+
+.App p {
+  font-family: 'Orbitron'
+}
+
