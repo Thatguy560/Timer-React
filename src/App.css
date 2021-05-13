@@ -22,10 +22,13 @@
 
 .App h2 {
   font-family: 'Orbitron';
-  color: white;
+  border-radius: 4px;
+  padding: 5px;
+  /* color: black;  */
+  /* background-color: white; 
+  border: 5px solid black; */
 }
 
 .App p {
   font-family: 'Orbitron'
 }
-

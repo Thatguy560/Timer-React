@@ -1,5 +1,4 @@
 import { Component } from "react";
-import React from "react";
 import "./App.css";
 
 class Timer extends Component {
@@ -45,23 +44,35 @@ class Timer extends Component {
 
   startTimer = (event) => {
     event.preventDefault();
-    console.log("This will start the timer");
     let time = parseInt(this.state.time);
+    document.getElementById("Countdown").style.display = "block";
+    document.getElementById("timerSet").style.display = "none";
     setInterval(() => {
-      console.log(time);
       if (time === 0) {
-        console.log("Time over");
+        // console.log("Time over");
       } else {
-        time = time - 1;
+        time -= 1;
+        const H = ("0" + parseInt(time / (60 * 60))).slice(-2);
+        const M = ("0" + parseInt((time / 60) % 60)).slice(-2);
+        const S = ("0" + parseInt(time % 60)).slice(-2);
+        var timeTest = `${H}:${M}:${S}`;
       }
+      this.setState({
+        timeLeft: time,
+        timeRemaining: timeTest,
+      });
     }, 1000);
   };
 
   render() {
+    var test =
+      this.state.timeLeft === 0 ? "Times Up!" : this.state.timeRemaining;
+    console.log(test);
+
     return (
       <div className="App">
         <header className="App-header">
-          <p>How long do you want to set a timer for (In Minutes)? </p>
+          <h2>How long do you want to set a timer for (In Minutes)?</h2>
           <input
             type="text"
             value={this.state.setTimerValue}
@@ -75,7 +86,12 @@ class Timer extends Component {
                 : null}
             </p>
           </form>
-          <h2>{this.state.timerSet}</h2>
+          <h2 id="timerSet" style={{ display: "block" }}>
+            {this.state.timerSet}
+          </h2>
+          <h2 id="Countdown" style={{ display: "none" }}>
+            {test}
+          </h2>
           <button
             id="timer"
             className="btn"
