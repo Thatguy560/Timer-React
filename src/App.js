@@ -18,7 +18,9 @@ class Timer extends Component {
 
   handleTimerSubmit = (event) => {
     event.preventDefault();
-    const timeInMinutes = this.state.setTimerValue;
+    document.getElementById("timer").style.display = "block";
+    let timeInMinutes =
+      this.state.setTimerValue <= 0 ? null : this.state.setTimerValue;
     const H = ("0" + parseInt(timeInMinutes / 60)).slice(-2);
     const M = ("0" + parseInt(timeInMinutes % 60)).slice(-2);
     const S = ("0" + parseInt((timeInMinutes * 60) % 60)).slice(-2);
@@ -49,9 +51,19 @@ class Timer extends Component {
           />
           <form onSubmit={this.handleTimerSubmit}>
             <button type="submit">Set Timer</button>
+            <p>
+              {this.state.setTimerValue <= 0 && this.state.setTimerValue !== ""
+                ? "Please Enter A Valid Number"
+                : null}
+            </p>
           </form>
           <h2>{this.state.timerSet}</h2>
-          <button className="btn" onClick={this.startTimer}>
+          <button
+            id="timer"
+            className="btn"
+            style={{ display: "none" }}
+            onClick={this.startTimer}
+          >
             Start Timer
           </button>
         </header>
