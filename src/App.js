@@ -15,7 +15,7 @@ class Timer extends Component {
       if (
         input.which > 31 &&
         (input.which < 48 || input.which > 57) &&
-        input.which != 46
+        input.which !== 46
       ) {
         input.preventDefault();
       }
@@ -32,12 +32,13 @@ class Timer extends Component {
     event.preventDefault();
     document.getElementById("timer").style.display = "block";
     let timeInMinutes =
-      this.state.setTimerValue <= 0 ? null : this.state.setTimerValue;
-    const H = ("0" + parseInt(timeInMinutes / 60)).slice(-2);
-    const M = ("0" + parseInt(timeInMinutes % 60)).slice(-2);
-    const S = ("0" + parseInt((timeInMinutes * 60) % 60)).slice(-2);
+      this.state.setTimerValue <= 0 ? null : this.state.setTimerValue * 60;
+    const H = ("0" + parseInt(timeInMinutes / (60 * 60))).slice(-2);
+    const M = ("0" + parseInt((timeInMinutes / 60) % 60)).slice(-2);
+    const S = ("0" + parseInt(timeInMinutes % 60)).slice(-2);
     const timeFormat = `${H}:${M}:${S}`;
     this.setState({
+      time: timeInMinutes,
       timerSet: timeFormat,
     });
   };
@@ -45,6 +46,15 @@ class Timer extends Component {
   startTimer = (event) => {
     event.preventDefault();
     console.log("This will start the timer");
+    let time = parseInt(this.state.time);
+    setInterval(() => {
+      console.log(time);
+      if (time === 0) {
+        console.log("Time over");
+      } else {
+        time = time - 1;
+      }
+    }, 1000);
   };
 
   render() {
