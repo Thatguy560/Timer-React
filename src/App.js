@@ -10,6 +10,18 @@ class Timer extends Component {
     };
   }
 
+  componentDidMount = () => {
+    document.querySelector("input").addEventListener("keypress", (input) => {
+      if (
+        input.which > 31 &&
+        (input.which < 48 || input.which > 57) &&
+        input.which != 46
+      ) {
+        input.preventDefault();
+      }
+    });
+  };
+
   setTimerValue = (given) => {
     this.setState({
       setTimerValue: given.target.value,
@@ -39,10 +51,6 @@ class Timer extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <link
-            href="https://fonts.googleapis.com/css?family=Orbitron"
-            rel="stylesheet"
-          />
           <p>How long do you want to set a timer for (In Minutes)? </p>
           <input
             type="text"
@@ -53,7 +61,7 @@ class Timer extends Component {
             <button type="submit">Set Timer</button>
             <p>
               {this.state.setTimerValue <= 0 && this.state.setTimerValue !== ""
-                ? "Please Enter A Valid Number"
+                ? "Please enter a number greater than 0."
                 : null}
             </p>
           </form>
