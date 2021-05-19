@@ -7,6 +7,7 @@ class Timer extends Component {
     this.state = {
       setTimerValue: "",
     };
+    // this.baseState = this.state;
   }
 
   componentDidMount = () => {
@@ -27,15 +28,24 @@ class Timer extends Component {
     });
   };
 
+  resetTimer = () => {
+    // this.setState(this.baseState);
+    window.location.reload(false);
+  };
+
   handleTimerSubmit = (event) => {
     event.preventDefault();
     document.getElementById("timer").style.display = "block";
     let timeInMinutes =
-      this.state.setTimerValue <= 0 ? null : this.state.setTimerValue * 60;
-    const H = ("0" + parseInt(timeInMinutes / (60 * 60))).slice(-2);
-    const M = ("0" + parseInt((timeInMinutes / 60) % 60)).slice(-2);
-    const S = ("0" + parseInt(timeInMinutes % 60)).slice(-2);
-    const timeFormat = `${H}:${M}:${S}`;
+      this.state.setTimerValue <= 0 ? "" : this.state.setTimerValue * 60;
+    if (timeInMinutes > 0) {
+      const H = ("0" + parseInt(timeInMinutes / (60 * 60))).slice(-2);
+      const M = ("0" + parseInt((timeInMinutes / 60) % 60)).slice(-2);
+      const S = ("0" + parseInt(timeInMinutes % 60)).slice(-2);
+      var timeFormat = `${H}:${M}:${S}`;
+    } else {
+      document.getElementById("timer").style.display = "none";
+    }
     this.setState({
       time: timeInMinutes,
       timerSet: timeFormat,
@@ -45,11 +55,14 @@ class Timer extends Component {
   startTimer = (event) => {
     event.preventDefault();
     let time = parseInt(this.state.time);
+    console.log(time);
     document.getElementById("Countdown").style.display = "block";
+    document.getElementById("Reset").style.display = "block";
+    document.getElementById("Stop").style.display = "block";
     document.getElementById("timerSet").style.display = "none";
     setInterval(() => {
       if (time === 0) {
-        // console.log("Time over");
+        time = 0;
       } else {
         time -= 1;
         const H = ("0" + parseInt(time / (60 * 60))).slice(-2);
@@ -64,10 +77,16 @@ class Timer extends Component {
     }, 1000);
   };
 
+  stopTimer = () => {
+    console.log("Test");
+    clearTimeout(this.state.setTimerValue);
+    clearTimeout(this.state.timeLeft);
+    clearInterval(this.state.timeRemaining);
+  };
+
   render() {
     var test =
       this.state.timeLeft === 0 ? "Times Up!" : this.state.timeRemaining;
-    console.log(test);
 
     return (
       <div className="App">
@@ -99,6 +118,24 @@ class Timer extends Component {
             onClick={this.startTimer}
           >
             Start Timer
+          </button>
+          <button
+            id="Reset"
+            className="btn"
+            style={{ display: "none" }}
+            onClick={this.resetTimer}
+            type="button"
+          >
+            Reset Timer
+          </button>
+          <button
+            id="Stop"
+            className="btn"
+            style={{ display: "none" }}
+            onClick={this.stopTimer}
+            type="button"
+          >
+            Stop Timer
           </button>
         </header>
       </div>
