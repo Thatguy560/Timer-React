@@ -33,6 +33,7 @@ class Timer extends Component {
 
   handleTimerSubmit = (event) => {
     event.preventDefault();
+    console.log("Timer Set");
     document.getElementById("Timer").style.display = "block";
     let timeInMinutes =
       this.state.setTimerValue <= 0 ? "" : this.state.setTimerValue * 60;
@@ -64,7 +65,7 @@ class Timer extends Component {
     document.getElementById("Input").style.display = "none";
     document.getElementById("Intro").style.display = "none";
     // document.getElementById("timerSet").style.display = "none";
-    setInterval(() => {
+    let myInterval = setInterval(() => {
       if (time === 0) {
         time = 0;
       } else {
@@ -74,6 +75,7 @@ class Timer extends Component {
         const S = ("0" + parseInt(time % 60)).slice(-2);
         var finalTimeFormat = `${H}:${M}:${S}`;
         if (time < 60) document.getElementById("Countdown").style.color = "red";
+        if (time === 0) clearInterval(myInterval);
       }
       this.setState({
         timeLeft: time,
@@ -90,8 +92,11 @@ class Timer extends Component {
   };
 
   render() {
-    var test =
-      this.state.timeLeft === 0 ? "Times Up!" : this.state.timeRemaining;
+    let displayedCountdownTimer =
+      this.state.timeLeft === 0 ? "00:00:00" : this.state.timeRemaining;
+    if (this.state.timeLeft === 0) {
+      alert("TIMES UP");
+    }
 
     return (
       <div className="App">
@@ -127,17 +132,8 @@ class Timer extends Component {
             Start Timer
           </button>
           <h1 id="Countdown" style={{ display: "none" }}>
-            {test}
+            {displayedCountdownTimer}
           </h1>
-          <button
-            id="Reset"
-            className="btn"
-            style={{ display: "none" }}
-            onClick={this.resetTimer}
-            type="button"
-          >
-            Reset Timer
-          </button>
           <button
             id="Stop"
             className="btn"
@@ -146,6 +142,15 @@ class Timer extends Component {
             type="button"
           >
             Stop Timer
+          </button>
+          <button
+            id="Reset"
+            className="btn"
+            style={{ display: "none" }}
+            onClick={this.resetTimer}
+            type="button"
+          >
+            Reset
           </button>
         </header>
       </div>
