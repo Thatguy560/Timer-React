@@ -33,23 +33,23 @@ class Timer extends Component {
 
   handleTimerSubmit = (event) => {
     event.preventDefault();
-    document.getElementById("Timer").style.display = "block";
+    document.getElementById("timer").style.display = "block";
     let timeInMinutes =
       this.state.setTimerValue <= 0 ? "" : this.state.setTimerValue * 60;
-    // if (timeInMinutes > 0) {
-    //   const H = ("0" + parseInt(timeInMinutes / (60 * 60))).slice(-2);
-    //   const M = ("0" + parseInt((timeInMinutes / 60) % 60)).slice(-2);
-    //   const S = ("0" + parseInt(timeInMinutes % 60)).slice(-2);
-    //   var timeFormat = `${H}:${M}:${S}`;
-    // } else {
-    //   document.getElementById("timer").style.display = "none";
-    // }
+    if (timeInMinutes > 0) {
+      const H = ("0" + parseInt(timeInMinutes / (60 * 60))).slice(-2);
+      const M = ("0" + parseInt((timeInMinutes / 60) % 60)).slice(-2);
+      const S = ("0" + parseInt(timeInMinutes % 60)).slice(-2);
+      var timeFormat = `${H} : ${M} : ${S}`;
+    } else {
+      document.getElementById("timer").style.display = "none";
+    }
     if (timeInMinutes <= 0) {
-      document.getElementById("Timer").style.display = "none";
+      document.getElementById("timer").style.display = "none";
     }
     this.setState({
       time: timeInMinutes,
-      // timerSet: timeFormat,
+      timerSet: timeFormat,
     });
   };
 
@@ -59,11 +59,7 @@ class Timer extends Component {
     document.getElementById("Countdown").style.display = "block";
     document.getElementById("Reset").style.display = "block";
     document.getElementById("Stop").style.display = "block";
-    document.getElementById("Timer").style.display = "none";
-    document.getElementById("StartTimer").style.display = "none";
-    document.getElementById("Input").style.display = "none";
-    document.getElementById("Intro").style.display = "none";
-    // document.getElementById("timerSet").style.display = "none";
+    document.getElementById("timerSet").style.display = "none";
     setInterval(() => {
       if (time === 0) {
         time = 0;
@@ -72,7 +68,7 @@ class Timer extends Component {
         const H = ("0" + parseInt(time / (60 * 60))).slice(-2);
         const M = ("0" + parseInt((time / 60) % 60)).slice(-2);
         const S = ("0" + parseInt(time % 60)).slice(-2);
-        var finalTimeFormat = `${H}:${M}:${S}`;
+        var finalTimeFormat = `${H} : ${M} : ${S}`;
         if (time < 60) document.getElementById("Countdown").style.color = "red";
       }
       this.setState({
@@ -96,9 +92,7 @@ class Timer extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h2 id="Intro">
-            How long do you want to set a timer for (In Minutes)?
-          </h2>
+          <h2>How long do you want to set a timer for (In Minutes)?</h2>
           <p>
             {this.state.setTimerValue <= 0 && this.state.setTimerValue !== ""
               ? "Please enter a number greater than 0."
@@ -106,29 +100,26 @@ class Timer extends Component {
           </p>
           <input
             type="text"
-            id="Input"
             value={this.state.setTimerValue}
             onChange={this.setTimerValue}
           />
           <form onSubmit={this.handleTimerSubmit}>
-            <button type="submit" id="StartTimer">
-              Set Timer
-            </button>
+            <button type="submit">Set Timer</button>
           </form>
-          {/* <h1 id="timerSet" style={{ display: "block" }}>
-            {this.state.timerSet}
-          </h1> */}
           <button
-            id="Timer"
+            id="timer"
             className="btn"
             style={{ display: "none" }}
             onClick={this.startTimer}
           >
             Start Timer
           </button>
-          <h1 id="Countdown" style={{ display: "none" }}>
+          <h2 id="timerSet" style={{ display: "block" }}>
+            {this.state.timerSet}
+          </h2>
+          <h2 id="Countdown" style={{ display: "none" }}>
             {test}
-          </h1>
+          </h2>
           <button
             id="Reset"
             className="btn"

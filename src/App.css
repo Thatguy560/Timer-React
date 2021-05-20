@@ -29,6 +29,10 @@
   border: 5px solid black; */
 }
 
+.App h1 {
+  font-family: 'Orbitron';
+}
+
 .App p {
   font-family: 'Orbitron'
 }
