@@ -16,23 +16,77 @@
 }
 
 .App button {
+  margin-top: 15px;
+  font-size: 15px;
+}
+
+
+.App h1 {
+  font-family: 'Orbitron';
+  color: black;
   background-color: white;
-  margin-top: 5px;
+  border: 12px solid black;
+  border-radius: 12px;
+  padding: 10px;
 }
 
 .App h2 {
   font-family: 'Orbitron';
   border-radius: 4px;
   padding: 5px;
-  /* color: black;  */
-  /* background-color: white; 
-  border: 5px solid black; */
 }
 
-.App h1 {
-  font-family: 'Orbitron';
+.App h2#Intro {
+  background-color: black;
+  border-radius: 12px;
+  color: white;
+  padding: 10px;
 }
 
 .App p {
   font-family: 'Orbitron'
+}
+
+.App button#SetTimer {
+  font-family: 'Orbitron';
+  font-weight: bold;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  color: #fff;
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.App button#StartTimer { 
+  font-family: 'Orbitron';
+  font-weight: bold;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+  color: #fff;
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.App button#StopTimer {
+  font-family: 'Orbitron';
+  font-weight: bold;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+  color: white;
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.App button#ResetTimer {
+  font-family: 'Orbitron';
+  font-weight: bold;
+  background-color: #f0ad4e;
+  border-color: #eea236;
+  color: #fff;
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
 }

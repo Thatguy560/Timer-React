@@ -21,9 +21,9 @@ class Timer extends Component {
     });
   };
 
-  setTimerValue = (given) => {
+  setTimerValue = (givenTime) => {
     this.setState({
-      setTimerValue: given.target.value,
+      setTimerValue: givenTime.target.value,
     });
   };
 
@@ -33,24 +33,14 @@ class Timer extends Component {
 
   handleTimerSubmit = (event) => {
     event.preventDefault();
-    console.log("Timer Set");
-    document.getElementById("Timer").style.display = "block";
+    document.getElementById("StartTimer").style.display = "block";
     let timeInMinutes =
       this.state.setTimerValue <= 0 ? "" : this.state.setTimerValue * 60;
-    // if (timeInMinutes > 0) {
-    //   const H = ("0" + parseInt(timeInMinutes / (60 * 60))).slice(-2);
-    //   const M = ("0" + parseInt((timeInMinutes / 60) % 60)).slice(-2);
-    //   const S = ("0" + parseInt(timeInMinutes % 60)).slice(-2);
-    //   var timeFormat = `${H}:${M}:${S}`;
-    // } else {
-    //   document.getElementById("timer").style.display = "none";
-    // }
     if (timeInMinutes <= 0) {
-      document.getElementById("Timer").style.display = "none";
+      document.getElementById("StartTimer").style.display = "none";
     }
     this.setState({
       time: timeInMinutes,
-      // timerSet: timeFormat,
     });
   };
 
@@ -58,13 +48,13 @@ class Timer extends Component {
     event.preventDefault();
     let time = parseInt(this.state.time);
     document.getElementById("Countdown").style.display = "block";
-    document.getElementById("Reset").style.display = "block";
-    document.getElementById("Stop").style.display = "block";
-    document.getElementById("Timer").style.display = "none";
+    // document.getElementById("Countdown").style.opacity = "1";
+    document.getElementById("ResetTimer").style.display = "block";
+    document.getElementById("StopTimer").style.display = "block";
     document.getElementById("StartTimer").style.display = "none";
+    document.getElementById("SetTimer").style.display = "none";
     document.getElementById("Input").style.display = "none";
     document.getElementById("Intro").style.display = "none";
-    // document.getElementById("timerSet").style.display = "none";
     let myInterval = setInterval(() => {
       if (time === 0) {
         time = 0;
@@ -91,11 +81,21 @@ class Timer extends Component {
     clearInterval(this.state.timeRemaining);
   };
 
+  testAudio = () => {
+    // let alarmAudio = new Audio("./Audio/250629__kwahmah-02__alarm1.mp3");
+    let alarmAudio = new Audio("src/250629__kwahmah-02__alarm1.mp3");
+    alarmAudio.volume = 0.5;
+    alarmAudio.play();
+  };
+
   render() {
     let displayedCountdownTimer =
       this.state.timeLeft === 0 ? "00:00:00" : this.state.timeRemaining;
     if (this.state.timeLeft === 0) {
       alert("TIMES UP");
+      let alarmAudio = new Audio("./Audio/250629__kwahmah-02__alarm1.mp3");
+      alarmAudio.volume = 0.5;
+      alarmAudio.play();
     }
 
     return (
@@ -116,15 +116,12 @@ class Timer extends Component {
             onChange={this.setTimerValue}
           />
           <form onSubmit={this.handleTimerSubmit}>
-            <button type="submit" id="StartTimer">
+            <button type="submit" id="SetTimer">
               Set Timer
             </button>
           </form>
-          {/* <h1 id="timerSet" style={{ display: "block" }}>
-            {this.state.timerSet}
-          </h1> */}
           <button
-            id="Timer"
+            id="StartTimer"
             className="btn"
             style={{ display: "none" }}
             onClick={this.startTimer}
@@ -135,8 +132,10 @@ class Timer extends Component {
             {displayedCountdownTimer}
           </h1>
           <button
-            id="Stop"
-            className="btn"
+            id="StopTimer"
+            // className="btn"
+            type="button"
+            class="btn btn-warning"
             style={{ display: "none" }}
             onClick={this.stopTimer}
             type="button"
@@ -144,13 +143,16 @@ class Timer extends Component {
             Stop Timer
           </button>
           <button
-            id="Reset"
+            id="ResetTimer"
             className="btn"
             style={{ display: "none" }}
             onClick={this.resetTimer}
             type="button"
           >
-            Reset
+            Restart Timer
+          </button>
+          <button className="btn" onClick={this.testAudio}>
+            Test Audio
           </button>
         </header>
       </div>

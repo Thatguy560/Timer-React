@@ -36,20 +36,24 @@ class Timer extends Component {
     document.getElementById("timer").style.display = "block";
     let timeInMinutes =
       this.state.setTimerValue <= 0 ? "" : this.state.setTimerValue * 60;
+    // ####
     if (timeInMinutes > 0) {
       const H = ("0" + parseInt(timeInMinutes / (60 * 60))).slice(-2);
       const M = ("0" + parseInt((timeInMinutes / 60) % 60)).slice(-2);
       const S = ("0" + parseInt(timeInMinutes % 60)).slice(-2);
-      var timeFormat = `${H} : ${M} : ${S}`;
+      var timeFormat = `${H}:${M}:${S}`;
     } else {
       document.getElementById("timer").style.display = "none";
     }
+    // ####
     if (timeInMinutes <= 0) {
       document.getElementById("timer").style.display = "none";
     }
     this.setState({
       time: timeInMinutes,
+      // ####
       timerSet: timeFormat,
+      // ####
     });
   };
 
@@ -59,7 +63,9 @@ class Timer extends Component {
     document.getElementById("Countdown").style.display = "block";
     document.getElementById("Reset").style.display = "block";
     document.getElementById("Stop").style.display = "block";
+    // ####
     document.getElementById("timerSet").style.display = "none";
+    // ####
     setInterval(() => {
       if (time === 0) {
         time = 0;
@@ -114,12 +120,14 @@ class Timer extends Component {
           >
             Start Timer
           </button>
-          <h2 id="timerSet" style={{ display: "block" }}>
+          {/* #### */}
+          <h1 id="timerSet" style={{ display: "block" }}>
             {this.state.timerSet}
-          </h2>
-          <h2 id="Countdown" style={{ display: "none" }}>
+          </h1>
+          {/* #### */}
+          <h1 id="Countdown" style={{ display: "none" }}>
             {test}
-          </h2>
+          </h1>
           <button
             id="Reset"
             className="btn"
