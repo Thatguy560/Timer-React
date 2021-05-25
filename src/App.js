@@ -22,8 +22,15 @@ class Timer extends Component {
   };
 
   setTimerValue = (givenTime) => {
+    const timeInput = givenTime.target.value;
+    const SetTimerDisplay = document.getElementById("SetTimer").style;
+    if (timeInput > 0 && timeInput !== "") {
+      SetTimerDisplay.display = "block";
+    } else {
+      SetTimerDisplay.display = "none";
+    }
     this.setState({
-      setTimerValue: givenTime.target.value,
+      setTimerValue: timeInput,
     });
   };
 
@@ -34,11 +41,7 @@ class Timer extends Component {
   handleTimerSubmit = (event) => {
     event.preventDefault();
     document.getElementById("StartTimer").style.display = "block";
-    let timeInMinutes =
-      this.state.setTimerValue <= 0 ? "" : this.state.setTimerValue * 60;
-    if (timeInMinutes <= 0) {
-      document.getElementById("StartTimer").style.display = "none";
-    }
+    let timeInMinutes = this.state.setTimerValue * 60;
     this.setState({
       time: timeInMinutes,
     });
@@ -47,14 +50,15 @@ class Timer extends Component {
   startTimer = (event) => {
     event.preventDefault();
     let time = parseInt(this.state.time);
-    document.getElementById("Countdown").style.display = "block";
     // document.getElementById("Countdown").style.opacity = "1";
+    document.getElementById("Countdown").style.display = "block";
     document.getElementById("ResetTimer").style.display = "block";
     document.getElementById("StopTimer").style.display = "block";
     document.getElementById("StartTimer").style.display = "none";
     document.getElementById("SetTimer").style.display = "none";
     document.getElementById("Input").style.display = "none";
     document.getElementById("Intro").style.display = "none";
+    document.getElementById("Warning").style.display = "none";
     let myInterval = setInterval(() => {
       if (time === 0) {
         time = 0;
@@ -92,29 +96,29 @@ class Timer extends Component {
       this.state.timeLeft === 0 ? "00:00:00" : this.state.timeRemaining;
     if (this.state.timeLeft === 0) {
       alert("TIMES UP");
-      let alarmAudio = new Audio("./Audio/250629__kwahmah-02__alarm1.mp3");
-      alarmAudio.volume = 0.5;
-      alarmAudio.play();
+      // let alarmAudio = new Audio("./Audio/250629__kwahmah-02__alarm1.mp3");
+      // alarmAudio.volume = 0.5;
+      // alarmAudio.play();
     }
 
     return (
       <div className="App">
         <header className="App-header">
-          <h2 id="Intro">How long do you want to set a timer for?</h2>
-          <p>
+          <h2 id="Intro">How long do you want to set a timer for? (Minutes)</h2>
+          <p id="Warning">
             {this.state.setTimerValue <= 0 && this.state.setTimerValue !== ""
               ? "Please enter a number greater than 0."
               : null}
           </p>
           <input
             type="text"
-            placeholder="Enter a time in minutes"
+            placeholder="Please enter a timer limit..."
             id="Input"
             value={this.state.setTimerValue}
             onChange={this.setTimerValue}
           />
           <form onSubmit={this.handleTimerSubmit}>
-            <button type="submit" id="SetTimer">
+            <button type="submit" id="SetTimer" style={{ display: "none" }}>
               Set Timer
             </button>
           </form>

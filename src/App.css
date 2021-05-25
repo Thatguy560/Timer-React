@@ -102,14 +102,19 @@
 }
 
 .App input#Input {
-  width: 10.5%;
-  transition: 0.8s ease-out;
+  height: 25px;
+  width: 11.5%;
+  transition: 0.5s ease-out;
   border-radius: 12px;
   text-align: center; 
 }
 
 .App input#Input:hover {
-  width: 12%;
-  transition: 0.8s ease-in;
+  width: 12.5%;
+  transition: 0.5s ease-in;
   box-shadow: 5px 8px 18px black;
+}
+
+.App input#Input::placeholder {
+  color: black;
 }
