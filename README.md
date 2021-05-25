@@ -11,7 +11,7 @@ A character Counter app made with React. Once loaded you can type in the text ar
 # Visit the deployed app
 
 You can find the deployed app on Heroku via the following link:
-// Link here
+https://my-timer-application.herokuapp.com/
  
 
 # Installation
