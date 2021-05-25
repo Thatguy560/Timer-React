@@ -82,8 +82,7 @@ class Timer extends Component {
   };
 
   testAudio = () => {
-    // let alarmAudio = new Audio("./Audio/250629__kwahmah-02__alarm1.mp3");
-    let alarmAudio = new Audio("src/250629__kwahmah-02__alarm1.mp3");
+    let alarmAudio = new Audio("./Audio/250629__kwahmah-02__alarm1.mp3");
     alarmAudio.volume = 0.5;
     alarmAudio.play();
   };
@@ -101,9 +100,7 @@ class Timer extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h2 id="Intro">
-            How long do you want to set a timer for (In Minutes)?
-          </h2>
+          <h2 id="Intro">How long do you want to set a timer for?</h2>
           <p>
             {this.state.setTimerValue <= 0 && this.state.setTimerValue !== ""
               ? "Please enter a number greater than 0."
@@ -111,6 +108,7 @@ class Timer extends Component {
           </p>
           <input
             type="text"
+            placeholder="Enter a time in minutes"
             id="Input"
             value={this.state.setTimerValue}
             onChange={this.setTimerValue}
@@ -133,21 +131,19 @@ class Timer extends Component {
           </h1>
           <button
             id="StopTimer"
-            // className="btn"
+            className="btn"
             type="button"
-            class="btn btn-warning"
             style={{ display: "none" }}
             onClick={this.stopTimer}
-            type="button"
           >
             Stop Timer
           </button>
           <button
             id="ResetTimer"
+            type="button"
             className="btn"
             style={{ display: "none" }}
             onClick={this.resetTimer}
-            type="button"
           >
             Restart Timer
           </button>

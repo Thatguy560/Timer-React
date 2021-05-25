@@ -30,6 +30,11 @@
   padding: 10px;
 }
 
+.App h1#Countdown::selection {
+  color: none;
+  background: none;
+}
+
 .App h2 {
   font-family: 'Orbitron';
   border-radius: 4px;
@@ -41,6 +46,11 @@
   border-radius: 12px;
   color: white;
   padding: 10px;
+}
+
+.App h2#Intro::selection {
+  color: none;
+  background: none;
 }
 
 .App p {
@@ -89,4 +99,17 @@
   padding: 10px;
   border-radius: 12px;
   cursor: pointer;
+}
+
+.App input#Input {
+  width: 10.5%;
+  transition: 0.8s ease-out;
+  border-radius: 12px;
+  text-align: center; 
+}
+
+.App input#Input:hover {
+  width: 12%;
+  transition: 0.8s ease-in;
+  box-shadow: 5px 8px 18px black;
 }
