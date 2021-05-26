@@ -82,6 +82,13 @@ class Timer extends Component {
   pauseTimer = () => {
     let timeLeftInterval = this.state.timeRemainingInterval;
     clearInterval(timeLeftInterval);
+    document.getElementById("PauseTimer").style.display = "none";
+    document.getElementById("ResumeTimer").style.display = "block";
+  };
+
+  resumeTimer = () => {
+    document.getElementById("PauseTimer").style.display = "block";
+    document.getElementById("ResumeTimer").style.display = "none";
   };
 
   testAudio = () => {
@@ -140,6 +147,15 @@ class Timer extends Component {
             onClick={this.pauseTimer}
           >
             Pause Timer
+          </button>
+          <button
+            id="ResumeTimer"
+            className="btn"
+            type="button"
+            style={{ display: "none" }}
+            onClick={this.resumeTimer}
+          >
+            Resume Timer
           </button>
           <button
             id="ResetTimer"

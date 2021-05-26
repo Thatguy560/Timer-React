@@ -90,6 +90,17 @@
   cursor: pointer;
 }
 
+.App button#ResumeTimer { 
+  font-family: 'Orbitron';
+  font-weight: bold;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+  color: #fff;
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
 .App button#ResetTimer {
   font-family: 'Orbitron';
   font-weight: bold;
@@ -103,14 +114,14 @@
 
 .App input#Input {
   height: 25px;
-  width: 11.5%;
+  width: 165px;
   transition: 0.5s ease-out;
   border-radius: 12px;
   text-align: center; 
 }
 
 .App input#Input:hover {
-  width: 12.5%;
+  width: 185px;
   transition: 0.5s ease-in;
   box-shadow: 5px 8px 18px black;
 }
