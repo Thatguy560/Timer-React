@@ -79,7 +79,7 @@
   cursor: pointer;
 }
 
-.App button#StopTimer {
+.App button#PauseTimer {
   font-family: 'Orbitron';
   font-weight: bold;
   background-color: #d9534f;

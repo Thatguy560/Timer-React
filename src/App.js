@@ -53,7 +53,7 @@ class Timer extends Component {
     // document.getElementById("Countdown").style.opacity = "1";
     document.getElementById("Countdown").style.display = "block";
     document.getElementById("ResetTimer").style.display = "block";
-    document.getElementById("StopTimer").style.display = "block";
+    document.getElementById("PauseTimer").style.display = "block";
     document.getElementById("StartTimer").style.display = "none";
     document.getElementById("SetTimer").style.display = "none";
     document.getElementById("Input").style.display = "none";
@@ -74,15 +74,14 @@ class Timer extends Component {
       this.setState({
         timeLeft: time,
         timeRemaining: finalTimeFormat,
+        timeRemainingInterval: myInterval,
       });
     }, 1000);
   };
 
-  stopTimer = () => {
-    console.log("This should stop the timer");
-    clearTimeout(this.state.setTimerValue);
-    clearTimeout(this.state.timeLeft);
-    clearInterval(this.state.timeRemaining);
+  pauseTimer = () => {
+    let timeLeftInterval = this.state.timeRemainingInterval;
+    clearInterval(timeLeftInterval);
   };
 
   testAudio = () => {
@@ -134,13 +133,13 @@ class Timer extends Component {
             {displayedCountdownTimer}
           </h1>
           <button
-            id="StopTimer"
+            id="PauseTimer"
             className="btn"
             type="button"
             style={{ display: "none" }}
-            onClick={this.stopTimer}
+            onClick={this.pauseTimer}
           >
-            Stop Timer
+            Pause Timer
           </button>
           <button
             id="ResetTimer"
