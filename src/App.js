@@ -1,5 +1,7 @@
 import { Component } from "react";
 import "./App.css";
+import audio from "./250629__kwahmah-02__alarm1.mp3";
+import UIfx from "uifx";
 
 class Timer extends Component {
   constructor(props) {
@@ -34,10 +36,6 @@ class Timer extends Component {
     });
   };
 
-  resetTimer = () => {
-    window.location.reload(false);
-  };
-
   handleTimerSubmit = (event) => {
     event.preventDefault();
     document.getElementById("StartTimer").style.display = "block";
@@ -50,6 +48,9 @@ class Timer extends Component {
   startTimer = (event) => {
     event.preventDefault();
     let time = parseInt(this.state.time);
+    console.log(`this is the entered time - ${time}`);
+    // this.resetTimer();
+    // Possibly have it so it takes original time and stores it for reset
     // document.getElementById("Countdown").style.opacity = "1";
     document.getElementById("Countdown").style.display = "block";
     document.getElementById("ResetTimer").style.display = "block";
@@ -79,6 +80,14 @@ class Timer extends Component {
     }, 1000);
   };
 
+  RestartApp = () => {
+    window.location.reload(false);
+  };
+
+  // resetTimer = () => {
+  //   console.log("Test");
+  // };
+
   pauseTimer = () => {
     let timeLeftInterval = this.state.timeRemainingInterval;
     clearInterval(timeLeftInterval);
@@ -89,22 +98,19 @@ class Timer extends Component {
   resumeTimer = () => {
     document.getElementById("PauseTimer").style.display = "block";
     document.getElementById("ResumeTimer").style.display = "none";
-  };
-
-  testAudio = () => {
-    let alarmAudio = new Audio("./Audio/250629__kwahmah-02__alarm1.mp3");
-    alarmAudio.volume = 0.5;
-    alarmAudio.play();
+    let resumedTime = this.state.timeLeft;
   };
 
   render() {
     let displayedCountdownTimer =
       this.state.timeLeft === 0 ? "00:00:00" : this.state.timeRemaining;
     if (this.state.timeLeft === 0) {
-      alert("TIMES UP");
-      // let alarmAudio = new Audio("./Audio/250629__kwahmah-02__alarm1.mp3");
-      // alarmAudio.volume = 0.5;
-      // alarmAudio.play();
+      const alarmAudio = new UIfx(audio, {
+        volume: 0.25,
+        throttleMs: 100,
+      });
+      alarmAudio.play();
+      document.getElementById("PauseTimer").style.display = "none";
     }
 
     return (
@@ -162,13 +168,13 @@ class Timer extends Component {
             type="button"
             className="btn"
             style={{ display: "none" }}
-            onClick={this.resetTimer}
+            onClick={this.RestartApp}
           >
             Restart Timer
           </button>
-          <button className="btn" onClick={this.testAudio}>
-            Test Audio
-          </button>
+          {/* <button className="btn" onClick={this.resetTimer}>
+            Reset Timer
+          </button> */}
         </header>
       </div>
     );
