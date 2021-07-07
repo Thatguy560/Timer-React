@@ -101,7 +101,7 @@
   cursor: pointer;
 }
 
-.App button#ResetTimer {
+.App button#RestartTimer {
   font-family: 'Orbitron';
   font-weight: bold;
   background-color: #f0ad4e;
@@ -129,3 +129,4 @@
 .App input#Input::placeholder {
   color: black;
 }
+

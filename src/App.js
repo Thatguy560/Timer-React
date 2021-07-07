@@ -1,184 +1,116 @@
-import { Component } from "react";
-import "./App.css";
+import React, { useRef } from "react";
 import audio from "./250629__kwahmah-02__alarm1.mp3";
 import UIfx from "uifx";
+import "./App.css";
+// import { render } from "@testing-library/react";
 
-class Timer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      setTimerValue: "",
-    };
-  }
+function Timer() {
+  const [time, setTime] = React.useState(0);
+  const [originalTime, trackStartingTime] = React.useState(0);
+  const [timerOn, IsTimerOn] = React.useState(false);
+  const trackTime = useRef(0);
 
-  componentDidMount = () => {
-    document.querySelector("input").addEventListener("keypress", (input) => {
-      if (
-        input.which > 31 &&
-        (input.which < 48 || input.which > 57) &&
-        input.which !== 46
-      ) {
-        input.preventDefault();
-      }
-    });
+  const TimerValue = (givenTime) => {
+    const timeInputInMinutes = givenTime.target.value * 60;
+    setTime(timeInputInMinutes);
+    trackStartingTime(timeInputInMinutes);
   };
 
-  setTimerValue = (givenTime) => {
-    const timeInput = givenTime.target.value;
-    const SetTimerDisplay = document.getElementById("SetTimer").style;
-    if (timeInput > 0 && timeInput !== "") {
-      SetTimerDisplay.display = "block";
-    } else {
-      SetTimerDisplay.display = "none";
-    }
-    this.setState({
-      setTimerValue: timeInput,
-    });
-  };
-
-  handleTimerSubmit = (event) => {
-    event.preventDefault();
-    document.getElementById("StartTimer").style.display = "block";
-    let timeInMinutes = this.state.setTimerValue * 60;
-    this.setState({
-      time: timeInMinutes,
-    });
-  };
-
-  startTimer = (event) => {
-    event.preventDefault();
-    let time = parseInt(this.state.time);
-    console.log(`this is the entered time - ${time}`);
-    // this.resetTimer();
-    // Possibly have it so it takes original time and stores it for reset
-    // document.getElementById("Countdown").style.opacity = "1";
-    document.getElementById("Countdown").style.display = "block";
-    document.getElementById("ResetTimer").style.display = "block";
-    document.getElementById("PauseTimer").style.display = "block";
-    document.getElementById("StartTimer").style.display = "none";
+  const handleTimerSubmit = (event) => {
+    event.preventDefault(); // Prevents page reloading on button submit.
     document.getElementById("SetTimer").style.display = "none";
     document.getElementById("Input").style.display = "none";
     document.getElementById("Intro").style.display = "none";
     document.getElementById("Warning").style.display = "none";
-    let myInterval = setInterval(() => {
-      if (time === 0) {
-        time = 0;
-      } else {
-        time -= 1;
-        const H = ("0" + parseInt(time / (60 * 60))).slice(-2);
-        const M = ("0" + parseInt((time / 60) % 60)).slice(-2);
-        const S = ("0" + parseInt(time % 60)).slice(-2);
-        var finalTimeFormat = `${H}:${M}:${S}`;
-        if (time < 60) document.getElementById("Countdown").style.color = "red";
-        if (time === 0) clearInterval(myInterval);
-      }
-      this.setState({
-        timeLeft: time,
-        timeRemaining: finalTimeFormat,
-        timeRemainingInterval: myInterval,
-      });
-    }, 1000);
+    document.getElementById("Countdown").style.display = "inline-block";
+    document.getElementById("StartTimer").style.display = "inline-block";
   };
 
-  RestartApp = () => {
-    window.location.reload(false);
+  const playAlarmSound = () => {
+    const alarmAudio = new UIfx(audio, {
+      volume: 0.3,
+      throttleMs: 100,
+    });
+    alarmAudio.play();
   };
 
-  // resetTimer = () => {
-  //   console.log("Test");
-  // };
-
-  pauseTimer = () => {
-    let timeLeftInterval = this.state.timeRemainingInterval;
-    clearInterval(timeLeftInterval);
-    document.getElementById("PauseTimer").style.display = "none";
-    document.getElementById("ResumeTimer").style.display = "block";
-  };
-
-  resumeTimer = () => {
-    document.getElementById("PauseTimer").style.display = "block";
-    document.getElementById("ResumeTimer").style.display = "none";
-    let resumedTime = this.state.timeLeft;
-  };
-
-  render() {
-    let displayedCountdownTimer =
-      this.state.timeLeft === 0 ? "00:00:00" : this.state.timeRemaining;
-    if (this.state.timeLeft === 0) {
-      const alarmAudio = new UIfx(audio, {
-        volume: 0.25,
-        throttleMs: 100,
-      });
-      alarmAudio.play();
-      document.getElementById("PauseTimer").style.display = "none";
+  React.useEffect(() => {
+    let interval = null;
+    if (timerOn) {
+      interval = setInterval(() => {
+        if (time === 0) {
+          setTime(0);
+          playAlarmSound();
+        } else {
+          if (time <= 60)
+            document.getElementById("Countdown").style.color = "red";
+          trackTime.current = time - 1;
+          setTime(trackTime.current);
+        }
+      }, 1000);
+    } else {
+      clearInterval(interval);
     }
+    return () => clearInterval(interval);
+  });
 
-    return (
-      <div className="App">
-        <header className="App-header">
-          <h2 id="Intro">How long do you want to set a timer for? (Minutes)</h2>
-          <p id="Warning">
-            {this.state.setTimerValue <= 0 && this.state.setTimerValue !== ""
-              ? "Please enter a number greater than 0."
-              : null}
-          </p>
-          <input
-            type="text"
-            placeholder="Please enter a timer limit..."
-            id="Input"
-            value={this.state.setTimerValue}
-            onChange={this.setTimerValue}
-          />
-          <form onSubmit={this.handleTimerSubmit}>
-            <button type="submit" id="SetTimer" style={{ display: "none" }}>
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h2 id="Intro">How long do you want to set a timer for? (Minutes)</h2>
+        <p id="Warning">Please enter a number greater than 0.</p>
+        <input
+          type="text"
+          placeholder="Please enter a timer limit..."
+          id="Input"
+          onChange={TimerValue} // (givenTime) => setTime(givenTime.target.value)
+        />
+        <form onSubmit={handleTimerSubmit}>
+          {time > 0 && (
+            <button type="submit" id="SetTimer">
               Set Timer
             </button>
-          </form>
-          <button
-            id="StartTimer"
-            className="btn"
-            style={{ display: "none" }}
-            onClick={this.startTimer}
-          >
-            Start Timer
-          </button>
+          )}
+        </form>
+        <div>
           <h1 id="Countdown" style={{ display: "none" }}>
-            {displayedCountdownTimer}
+            {("0" + parseInt(time / 3600)).slice(-2)}:
+            {("0" + parseInt((time / 60) % 60)).slice(-2)}:
+            {("0" + parseInt(time % 60)).slice(-2)}
           </h1>
-          <button
-            id="PauseTimer"
-            className="btn"
-            type="button"
-            style={{ display: "none" }}
-            onClick={this.pauseTimer}
-          >
-            Pause Timer
-          </button>
-          <button
-            id="ResumeTimer"
-            className="btn"
-            type="button"
-            style={{ display: "none" }}
-            onClick={this.resumeTimer}
-          >
-            Resume Timer
-          </button>
-          <button
-            id="ResetTimer"
-            type="button"
-            className="btn"
-            style={{ display: "none" }}
-            onClick={this.RestartApp}
-          >
-            Restart Timer
-          </button>
-          {/* <button className="btn" onClick={this.resetTimer}>
-            Reset Timer
-          </button> */}
-        </header>
-      </div>
-    );
-  }
+        </div>
+        <div>
+          {!timerOn && time !== 0 && (
+            <button
+              id="StartTimer"
+              style={{ display: "none" }}
+              onClick={() => IsTimerOn(true)}
+            >
+              Start Timer
+            </button>
+          )}
+          {timerOn && time !== 0 && (
+            <button id="PauseTimer" onClick={() => IsTimerOn(false)}>
+              Pause Timer
+            </button>
+          )}
+          {!timerOn && time !== originalTime && time > 0 && (
+            <button id="ResumeTimer" onClick={() => IsTimerOn(true)}>
+              Resume Timer
+            </button>
+          )}
+          {timerOn && (
+            <button
+              id="RestartTimer"
+              onClick={() => window.location.reload(false)}
+            >
+              Reset Timer
+            </button>
+          )}
+        </div>
+      </header>
+    </div>
+  );
 }
 
 export default Timer;
