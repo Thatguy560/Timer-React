@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
-import audio from "./250629__kwahmah-02__alarm1.mp3";
 import UIfx from "uifx";
-import "./App.css";
+import audio from "./audio/alarmAudio.mp3";
+import "./css/App.css";
 // import { render } from "@testing-library/react";
 
 function Timer() {
