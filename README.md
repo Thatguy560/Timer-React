@@ -13,18 +13,18 @@ A simple timer application made with React. With this application you can set a 
 ```
 As a user
 So I can set a timer 
-I'd like to able enter a time limit and be able to set it. 
+I'd like to be able to enter a time limit and be able to set it. 
 ```
 
 ```
 As a user 
 so I can momentarily stop the timer from running
-I'd like to have pause and resume buttons.
+I'd like to be able to pause and resume the timer.
 ```
 
 ```
 As a user 
-so I know when my time is up
+so I can know when my time is up
 I'd like to have an alarm sound notification.
 ```
  

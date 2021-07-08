@@ -82,7 +82,7 @@ export function Timer() {
             type="text"
             placeholder="Please enter a timer limit..."
             id="Input"
-            onChange={TimerValue} // (givenTime) => setTime(givenTime.target.value)
+            onChange={TimerValue}
           />
           <form onSubmit={SubmitTime}>
             {time > 0 && (
