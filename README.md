@@ -1,4 +1,4 @@
-# Timer App - React (Work In Progress)
+# Timer App - React
 
 <!-- To add GIF Image -->
 

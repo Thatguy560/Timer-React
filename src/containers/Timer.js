@@ -1,10 +1,9 @@
 import React, { useRef } from "react";
 import UIfx from "uifx";
-import audio from "./audio/alarmAudio.mp3";
-import "./css/App.css";
-// import { render } from "@testing-library/react";
+import audio from "../assets/alarmAudio.mp3";
+import "../css/App.css";
 
-function Timer() {
+export function Timer() {
   const [time, setTime] = React.useState(0);
   const [originalTime, trackStartingTime] = React.useState(0);
   const [timerOn, IsTimerOn] = React.useState(false);
@@ -16,12 +15,9 @@ function Timer() {
     trackStartingTime(timeInputInMinutes);
   };
 
-  const handleTimerSubmit = (event) => {
-    event.preventDefault(); // Prevents page reloading on button submit.
-    document.getElementById("SetTimer").style.display = "none";
-    document.getElementById("Input").style.display = "none";
-    document.getElementById("Intro").style.display = "none";
-    document.getElementById("Warning").style.display = "none";
+  const SubmitTime = (e) => {
+    e.preventDefault();
+    document.getElementById("Container").style.display = "none";
     document.getElementById("Countdown").style.display = "inline-block";
     document.getElementById("StartTimer").style.display = "inline-block";
   };
@@ -42,10 +38,10 @@ function Timer() {
           setTime(0);
           playAlarmSound();
         } else {
-          if (time <= 60)
-            document.getElementById("Countdown").style.color = "red";
           trackTime.current = time - 1;
           setTime(trackTime.current);
+          if (time <= 60)
+            document.getElementById("Countdown").style.color = "red";
         }
       }, 1000);
     } else {
@@ -57,21 +53,23 @@ function Timer() {
   return (
     <div className="App">
       <header className="App-header">
-        <h2 id="Intro">How long do you want to set a timer for? (Minutes)</h2>
-        <p id="Warning">Please enter a number greater than 0.</p>
-        <input
-          type="text"
-          placeholder="Please enter a timer limit..."
-          id="Input"
-          onChange={TimerValue} // (givenTime) => setTime(givenTime.target.value)
-        />
-        <form onSubmit={handleTimerSubmit}>
-          {time > 0 && (
+        <div id="Container">
+          <h2 id="Intro">
+            How long do you want to set a timer for in Minutes?
+          </h2>
+          <p id="Warning">Please enter a number greater than 0.</p>
+          <input
+            type="text"
+            placeholder="Please enter a timer limit..."
+            id="Input"
+            onChange={TimerValue} // (givenTime) => setTime(givenTime.target.value)
+          />
+          <form onSubmit={SubmitTime}>
             <button type="submit" id="SetTimer">
               Set Timer
             </button>
-          )}
-        </form>
+          </form>
+        </div>
         <div>
           <h1 id="Countdown" style={{ display: "none" }}>
             {("0" + parseInt(time / 3600)).slice(-2)}:
@@ -91,12 +89,12 @@ function Timer() {
           )}
           {timerOn && time !== 0 && (
             <button id="PauseTimer" onClick={() => IsTimerOn(false)}>
-              Pause Timer
+              Pause
             </button>
           )}
           {!timerOn && time !== originalTime && time > 0 && (
             <button id="ResumeTimer" onClick={() => IsTimerOn(true)}>
-              Resume Timer
+              Resume
             </button>
           )}
           {timerOn && (
@@ -104,7 +102,7 @@ function Timer() {
               id="RestartTimer"
               onClick={() => window.location.reload(false)}
             >
-              Reset Timer
+              Reset
             </button>
           )}
         </div>

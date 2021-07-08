@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./css/index.css";
-import Timer from "./Timer";
+import Timer from "./containers/Timer";
 // import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
